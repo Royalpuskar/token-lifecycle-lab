@@ -1,5 +1,13 @@
 # Token Lifecycle Lab
 
+<!-- portfolio-website:start -->
+## Website
+
+[Open token-lifecycle-lab website](https://royalpuskar.github.io/token-lifecycle-lab/)
+
+GitHub Pages deployment was confirmed during portfolio setup.
+<!-- portfolio-website:end -->
+
 An interactive laboratory for understanding refresh-token rotation and replay detection. Follow a token family, advance a simulated clock, reuse a consumed identifier, and inspect why the next request is denied.
 
 ## Problem
@@ -50,3 +58,10 @@ Next experiments: compare absolute versus sliding expiry, model concurrent refre
 ## License
 
 MIT. Copyright 2026 Royalpuskar.
+
+
+<!-- portfolio-rights:start -->
+## Copyright
+
+© 2026 Puskar (Royalpuskar). All rights reserved except the permissions expressly granted by this repository’s MIT License. Third-party rights and notices remain with their owners.
+<!-- portfolio-rights:end -->
