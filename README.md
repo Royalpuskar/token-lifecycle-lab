@@ -17,11 +17,11 @@ Token expiry and logout are often described as single checks. Rotation introduce
 ## Working features
 
 - Single-use refresh rotation with a sliding 60-minute refresh lifetime.
-- Ten-minute access lifetime with explicit expiry-boundary handling.
+- Ten-minute access lifetime and configurable absolute family lifetime (240 minutes by default), both with explicit expiry-boundary handling.
 - Reuse detection that revokes the whole family, including descendants.
 - Operator revocation, identifier selection, deterministic clock control, and decision history.
 - JSON export of the complete experiment; no keys or network services required.
-- Six automated behavior tests and a GitHub Actions test workflow.
+- Seven automated behavior tests and a GitHub Actions test workflow.
 
 ## Run
 
@@ -39,7 +39,8 @@ Open `http://localhost:8000` in a modern browser. Use an HTTP server because the
 1. Rotate R1. R2 and A2 are issued; R1 becomes consumed.
 2. Keep R1 selected and rotate again. The family becomes revoked.
 3. Select A2 and check access. It is denied despite its unexpired lifetime.
-4. Reset, advance ten minutes, and check A1 to observe the exact expiry boundary.
+4. Set the absolute family lifetime to 20 minutes, reset, advance 15 minutes, and rotate R1. R2 and A2 expire at the family deadline even though their individual lifetimes would otherwise extend further.
+5. Advance to minute 20 and check A2 or rotate R2 to see the absolute family expiry deny the action.
 
 ## Components and credential handling
 
@@ -51,7 +52,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for request flow and model assumptions, [
 
 ## Limitations and roadmap
 
-This model checks family revocation on every access decision. Real stateless access-token systems may accept a token until expiry unless they consult revocation state. Refresh lifetimes slide without an absolute session cap here. There is no concurrency, grace period, cross-tab synchronization, or durable token store. Reusing any consumed identifier revokes the family even after that identifier expires.
+This model checks family revocation and the absolute family deadline on every access decision. Real stateless access-token systems may accept a token until expiry unless they consult revocation state. Refresh lifetimes slide up to the configured absolute session cap. There is no concurrency, grace period, cross-tab synchronization, or durable token store. Reusing any consumed identifier revokes the family even after that identifier expires.
 
 Next experiments: compare absolute versus sliding expiry, model concurrent refresh races, and demonstrate revocation propagation delays. This repository is an educational implementation, not an identity provider or production security guarantee.
 
@@ -65,3 +66,4 @@ MIT. Copyright 2026 Royalpuskar.
 
 © 2026 Puskar (Royalpuskar). All rights reserved except the permissions expressly granted by this repository’s MIT License. Third-party rights and notices remain with their owners.
 <!-- portfolio-rights:end -->
+
